@@ -9,7 +9,6 @@ class ToggleAddCostBtn extends Component {
   }
 
   handleClick = () => {
-    console.log(this.props.isAddCostBtnPressed);
     this.props.setIsAddCostBtnPressed();
   };
 

@@ -3,7 +3,7 @@ import classes from "./AddCostForm.module.css";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import Button from "@mui/material/Button";
-import localstorageapi from "../api/localstorageapi";
+import idb from "../api/idb";
 
 class AddCostForm extends React.Component {
   constructor(props) {
@@ -49,21 +49,23 @@ class AddCostForm extends React.Component {
       this.setState({ isLoading: false });
       return;
     }
-
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = String(currentDate.getMonth() + 1).padStart(2, "0");
     const cost = {
       sum: this.state.sumValue,
       category: this.state.categoryValue,
       description: this.state.descriptionValue,
-      date: new Date(),
+      date: `${currentYear}-${currentMonth}`,
     };
 
     try {
-      await localstorageapi.addCost(cost);
-      console.log("Data successfully saved to local storage.");
-      alert("Data saved to local storage");
+      await idb.addCost(cost);
+      console.log("Data successfully saved.");
+      alert("Data saved !");
       this.cleanUpFunction();
     } catch (error) {
-      console.error("Error while saving data to local storage: ", error);
+      alert("Error while saving data");
     } finally {
       this.setState({ isLoading: false });
     }
